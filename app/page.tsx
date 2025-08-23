@@ -9,7 +9,44 @@ export default function Home() {
   const [isWhyAnimated, setIsWhyAnimated] = useState(false);
   const [isDriversAnimated, setIsDriversAnimated] = useState(false);
   const [isDriversBackgroundExpanded, setIsDriversBackgroundExpanded] = useState(false);
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [currentTestimonial, setCurrentTestimonial] = useState(1);
+  const [windowWidth, setWindowWidth] = useState(1200);
+
+  // Add carousel navigation functions
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % 3);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + 3) % 3);
+  };
+
+  // Calculate carousel transform
+  const getCarouselTransform = () => {
+    const isMobile = windowWidth <= 768;
+    const isSmallMobile = windowWidth <= 480;
+    
+    let cardWidth, gap;
+    
+    if (isSmallMobile) {
+      cardWidth = 300;
+      gap = 8;
+    } else if (isMobile) {
+      cardWidth = 350;
+      gap = 16;
+    } else if (windowWidth <= 1200) {
+      cardWidth = 420;
+      gap = 24;
+    } else {
+      cardWidth = 450;
+      gap = 32;
+    }
+    
+    const totalCardWidth = cardWidth + gap;
+    const containerWidth = isMobile ? windowWidth : 1200; // Container width
+    const centerOffset = (containerWidth - cardWidth) / 2;
+    return -currentTestimonial * totalCardWidth + centerOffset;
+  };
 
   useEffect(() => {
     // Smooth scrolling for navigation links
@@ -39,23 +76,20 @@ export default function Home() {
         e.preventDefault();
         
         // Add loading state
-        this.classList.add('loading');
+        // this.classList.add('loading');
         
         // Simulate action based on button text
         const buttonText = (e.target as HTMLButtonElement).textContent?.trim();
         
         if (buttonText === 'BOOK NOW') {
           // Simulate booking process
-          setTimeout(() => {
-            this.classList.remove('loading');
-            alert('Booking system would open here!');
-          }, 1500);
+
+            setActiveSection("form");
         } else if (buttonText === 'QUICK CALL') {
           // Simulate phone call
-          setTimeout(() => {
-            this.classList.remove('loading');
-            alert('Phone dialer would open here!');
-          }, 1000);
+ 
+            setActiveSection("contact");
+
         }
       });
     });
@@ -184,9 +218,18 @@ export default function Home() {
       setCurrentTestimonial((prev) => (prev + 1) % 3);
     }, 5000);
 
+    // Window resize handler
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    setWindowWidth(window.innerWidth);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('scroll', handleSectionScroll);
+      window.removeEventListener('resize', handleResize);
       clearInterval(testimonialInterval);
     };
   }, []);
@@ -234,7 +277,7 @@ export default function Home() {
       </main>
 
       {/* Booking Form Section */}
-      <section className="booking-form-section">
+      <section className="booking-form-section" id="form">
         <div className="booking-card">
           <div className="form-group">
             <input type="text" placeholder="Schedule Pickup" className="form-input" />
@@ -336,11 +379,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="services-pagination">
+          {/* <div className="services-pagination">
             <div className="pagination-dot active"></div>
             <div className="pagination-dot"></div>
             <div className="pagination-dot"></div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -411,70 +454,92 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="testimonials" id="contact">
+      <section className="testimonials">
         <div className="container">
           <div className="testimonials-header">
             <h3 className="testimonials-subtitle">HEAR FROM OUR CLIENTS</h3>
             <h2 className="testimonials-title">Don't Take Our Word For It - Here's What Clients Say!</h2>
           </div>
           
-          <div className="testimonials-carousel">
-            <div className={`testimonial-card ${currentTestimonial === 0 ? 'active' : ''}`}>
-              <div className="diagonal-decoration diagonal-top-left"></div>
-              <div className="diagonal-decoration diagonal-bottom-right"></div>
-              <div className="testimonial-avatar">
-                <div className="avatar-icon">👤</div>
+          <div className="testimonials-carousel-container">
+            <div 
+              className="testimonials-carousel"
+              style={{ transform: `translateX(${getCarouselTransform()}px)` }}
+            >
+              <div className={`testimonial-card ${currentTestimonial === 0 ? 'active' : ''}`}>
+                <div className="testimonial-avatar">
+                  <div className="avatar-icon">
+                    <img src="/dropico-driver.png" alt="Customer Avatar" />
+                  </div>
+                </div>
+                <h4 className="testimonial-role">The Party Savior</h4>
+                <p className="testimonial-quote">"I was stranded at 2 AM after my Uber canceled. Called these guys - their driver arrived in 10 mins, got me AND my car home safely"</p>
+                <p className="testimonial-author">- Rohan K. (Weekend Warrior)</p>
+                <div className="testimonial-divider"></div>
+                <div className="testimonial-rating">
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                </div>
               </div>
-              <h4 className="testimonial-role">The Party Savior</h4>
-              <p className="testimonial-quote">"I was stranded at 2 AM after my Uber canceled. Called these guys - their driver arrived in 10 mins, got me AND my car home safely. Lifesavers!"</p>
-              <p className="testimonial-author">- Rohan K. (Weekend Warrior)</p>
-              <div className="testimonial-divider"></div>
-              <div className="testimonial-rating">
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
+
+              <div className={`testimonial-card ${currentTestimonial === 1 ? 'active' : ''}`}>
+                <div className="testimonial-avatar">
+                  <div className="avatar-icon">
+                    <img src="/dropico-driver.png" alt="Customer Avatar" />
+                  </div>
+                </div>
+                <h4 className="testimonial-role">Business Traveler</h4>
+                <p className="testimonial-quote">"Reliable service every time. Perfect for my business trips. Clean cars and professional drivers."</p>
+                <p className="testimonial-author">- Priya M. (Corporate Executive)</p>
+                <div className="testimonial-divider"></div>
+                <div className="testimonial-rating">
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                </div>
+              </div>
+
+              <div className={`testimonial-card ${currentTestimonial === 2 ? 'active' : ''}`}>
+                <div className="testimonial-avatar">
+                  <div className="avatar-icon">
+                    <img src="/dropico-driver.png" alt="Customer Avatar" />
+                  </div>
+                </div>
+                <h4 className="testimonial-role">Family Traveler</h4>
+                <p className="testimonial-quote">"Safe and comfortable rides for my family. The drivers are always courteous and the cars are spotless."</p>
+                <p className="testimonial-author">- Amit S. (Family Man)</p>
+                <div className="testimonial-divider"></div>
+                <div className="testimonial-rating">
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                  <span className="star">★</span>
+                </div>
               </div>
             </div>
 
-            <div className={`testimonial-card ${currentTestimonial === 1 ? 'active' : ''}`}>
-              <div className="diagonal-decoration diagonal-top-left"></div>
-              <div className="diagonal-decoration diagonal-bottom-right"></div>
-              <div className="testimonial-avatar">
-                <div className="avatar-icon">👤</div>
-              </div>
-              <h4 className="testimonial-role">Business Traveler</h4>
-              <p className="testimonial-quote">"Reliable service every time. Perfect for my business trips. Clean cars and professional drivers."</p>
-              <p className="testimonial-author">- Priya M. (Corporate Executive)</p>
-              <div className="testimonial-divider"></div>
-              <div className="testimonial-rating">
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-              </div>
-            </div>
-
-            <div className={`testimonial-card ${currentTestimonial === 2 ? 'active' : ''}`}>
-              <div className="diagonal-decoration diagonal-top-left"></div>
-              <div className="diagonal-decoration diagonal-bottom-right"></div>
-              <div className="testimonial-avatar">
-                <div className="avatar-icon">👤</div>
-              </div>
-              <h4 className="testimonial-role">Family Traveler</h4>
-              <p className="testimonial-quote">"Safe and comfortable rides for my family. The drivers are always courteous and the cars are spotless."</p>
-              <p className="testimonial-author">- Amit S. (Family Man)</p>
-              <div className="testimonial-divider"></div>
-              <div className="testimonial-rating">
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-              </div>
-            </div>
+            {/* <div className="carousel-nav">
+              <button 
+                className="carousel-btn" 
+                onClick={prevTestimonial}
+                disabled={currentTestimonial === 0}
+              >
+                ‹
+              </button>
+              <button 
+                className="carousel-btn" 
+                onClick={nextTestimonial}
+                disabled={currentTestimonial === 2}
+              >
+                ›
+              </button>
+            </div> */}
           </div>
 
           <div className="testimonials-pagination">
@@ -495,7 +560,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="footer">
+      <footer className="footer" id="contact">
         <div className="container">
           <div className="footer-content">
             <div className="footer-column">
@@ -521,7 +586,7 @@ export default function Home() {
               <h3 className="footer-title">CONTACT US</h3>
               <div className="contact-info">
                 <div className="contact-item">
-                  <span className="contact-icon">📍</span>
+                  <img src="/location.png" alt="Location" className="contact-icon" />
                   <div className="contact-details">
                     <p className="contact-label">Corporate Office</p>
                     <p className="contact-text">A4, Chandrasekaran avenue,</p>
@@ -530,7 +595,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="contact-item">
-                  <span className="contact-icon">📞</span>
+                  <img src="/call.png" alt="Phone" className="contact-icon" />
                   <div className="contact-details">
                     <p className="contact-text">+91 96777 434 03</p>
                   </div>
