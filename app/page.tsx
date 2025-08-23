@@ -12,14 +12,14 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(1);
   const [windowWidth, setWindowWidth] = useState(1200);
 
-  // Add carousel navigation functions
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % 3);
-  };
+  // Carousel navigation functions (commented out since navigation buttons are disabled)
+  // const nextTestimonial = () => {
+  //   setCurrentTestimonial((prev) => (prev + 1) % 3);
+  // };
 
-  const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + 3) % 3);
-  };
+  // const prevTestimonial = () => {
+  //   setCurrentTestimonial((prev) => (prev - 1 + 3) % 3);
+  // };
 
   // Calculate carousel transform
   const getCarouselTransform = () => {
@@ -46,6 +46,39 @@ export default function Home() {
     const containerWidth = isMobile ? windowWidth : 1200; // Container width
     const centerOffset = (containerWidth - cardWidth) / 2;
     return -currentTestimonial * totalCardWidth + centerOffset;
+  };
+
+  // Define scroll handlers outside useEffect
+  const handleScroll = () => {
+    const header = document.querySelector('.header') as HTMLElement;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (header) {
+      if (scrollTop > 100) {
+        header.style.background = 'rgba(69, 104, 126, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+      } else {
+        header.style.background = '#45687E';
+        header.style.backdropFilter = 'none';
+      }
+    }
+  };
+
+  const handleSectionScroll = () => {
+    const sections = document.querySelectorAll('section, main');
+    let current = '';
+    const scrollPosition = window.pageYOffset + 100;
+    
+    sections.forEach(section => {
+      const sectionTop = (section as HTMLElement).offsetTop;
+      const sectionHeight = (section as HTMLElement).offsetHeight;
+      
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        current = section.getAttribute('id') || '';
+      }
+    });
+    
+    setActiveSection(current);
   };
 
   useEffect(() => {
@@ -75,66 +108,22 @@ export default function Home() {
       button.addEventListener('click', function(e: Event) {
         e.preventDefault();
         
-        // Add loading state
-        // this.classList.add('loading');
-        
         // Simulate action based on button text
         const buttonText = (e.target as HTMLButtonElement).textContent?.trim();
         
         if (buttonText === 'BOOK NOW') {
-          // Simulate booking process
-
-            setActiveSection("form");
+          setActiveSection("form");
         } else if (buttonText === 'QUICK CALL') {
-          // Simulate phone call
- 
-            setActiveSection("contact");
-
+          setActiveSection("contact");
         }
       });
     });
 
     // Header scroll effect
-    const header = document.querySelector('.header');
-    let lastScrollTop = 0;
-    
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      
-      if (header) {
-        if (scrollTop > 100) {
-          header.style.background = 'rgba(69, 104, 126, 0.95)';
-          header.style.backdropFilter = 'blur(10px)';
-        } else {
-          header.style.background = '#45687E';
-          header.style.backdropFilter = 'none';
-        }
-      }
-      
-      lastScrollTop = scrollTop;
-    };
-
+    const header = document.querySelector('.header') as HTMLElement;
     window.addEventListener('scroll', handleScroll);
 
     // Active navigation link highlighting
-    const sections = document.querySelectorAll('section, main');
-    
-    const handleSectionScroll = () => {
-      let current = '';
-      const scrollPosition = window.pageYOffset + 100;
-      
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          current = section.getAttribute('id') || '';
-        }
-      });
-      
-      setActiveSection(current);
-    };
-
     window.addEventListener('scroll', handleSectionScroll);
 
     // Services section scroll animation
@@ -201,14 +190,14 @@ export default function Home() {
     }
 
     // Logo hover effects
-    const logo = document.querySelector('.logo');
+    const logo = document.querySelector('.logo') as HTMLElement;
     if (logo) {
-      logo.addEventListener('mouseenter', function() {
+      logo.addEventListener('mouseenter', function(this: HTMLElement) {
         this.style.transform = 'scale(1.05)';
         this.style.transition = 'transform 0.3s ease';
       });
       
-      logo.addEventListener('mouseleave', function() {
+      logo.addEventListener('mouseleave', function(this: HTMLElement) {
         this.style.transform = 'scale(1)';
       });
     }
@@ -232,7 +221,7 @@ export default function Home() {
       window.removeEventListener('resize', handleResize);
       clearInterval(testimonialInterval);
     };
-  }, []);
+  }, [isDriversBackgroundExpanded]);
 
   return (
     <>
@@ -340,7 +329,7 @@ export default function Home() {
                     <span className="price-label">STARTING AT</span>
                     <span className="price-amount">299<sup>*</sup></span>
                   </div>
-                  <p className="service-description">Just need to get there? We'll make it a ride worth remembering.</p>
+                  <p className="service-description">Just need to get there? We&apos;ll make it a ride worth remembering.</p>
                   <button className="service-btn">BOOK NOW <span className="arrow"></span></button>
                 </div>
               </div>
@@ -444,7 +433,7 @@ export default function Home() {
             <div className={`drivers-content ${isDriversAnimated ? 'animate' : ''}`}>
               <h3 className={`drivers-subtitle ${isDriversAnimated ? 'animate' : ''}`}>FOR DRIVERS</h3>
               <h2 className={`drivers-title ${isDriversAnimated ? 'animate' : ''}`}>Earn with Us?</h2>
-              <p className={`drivers-description ${isDriversAnimated ? 'animate' : ''}`}>Are you a skilled driver committed to giving outstanding service? Become a part of our dedicated driving team. We're looking for pros like you!</p>
+              <p className={`drivers-description ${isDriversAnimated ? 'animate' : ''}`}>Are you a skilled driver committed to giving outstanding service? Become a part of our dedicated driving team. We&apos;re looking for pros like you!</p>
               <button className={`btn btn-primary ${isDriversAnimated ? 'animate' : ''}`} style={{borderRadius: '10%'}}>
                 Join as a DROPSTER !
               </button>
@@ -458,7 +447,7 @@ export default function Home() {
         <div className="container">
           <div className="testimonials-header">
             <h3 className="testimonials-subtitle">HEAR FROM OUR CLIENTS</h3>
-            <h2 className="testimonials-title">Don't Take Our Word For It - Here's What Clients Say!</h2>
+            <h2 className="testimonials-title">Don&apos;t Take Our Word For It - Here&apos;s What Clients Say!</h2>
           </div>
           
           <div className="testimonials-carousel-container">
@@ -473,7 +462,7 @@ export default function Home() {
                   </div>
                 </div>
                 <h4 className="testimonial-role">The Party Savior</h4>
-                <p className="testimonial-quote">"I was stranded at 2 AM after my Uber canceled. Called these guys - their driver arrived in 10 mins, got me AND my car home safely"</p>
+                <p className="testimonial-quote">&quot;I was stranded at 2 AM after my Uber canceled. Called these guys - their driver arrived in 10 mins, got me AND my car home safely&quot;</p>
                 <p className="testimonial-author">- Rohan K. (Weekend Warrior)</p>
                 <div className="testimonial-divider"></div>
                 <div className="testimonial-rating">
@@ -492,7 +481,7 @@ export default function Home() {
                   </div>
                 </div>
                 <h4 className="testimonial-role">Business Traveler</h4>
-                <p className="testimonial-quote">"Reliable service every time. Perfect for my business trips. Clean cars and professional drivers."</p>
+                <p className="testimonial-quote">&quot;Reliable service every time. Perfect for my business trips. Clean cars and professional drivers.&quot;</p>
                 <p className="testimonial-author">- Priya M. (Corporate Executive)</p>
                 <div className="testimonial-divider"></div>
                 <div className="testimonial-rating">
@@ -511,7 +500,7 @@ export default function Home() {
                   </div>
                 </div>
                 <h4 className="testimonial-role">Family Traveler</h4>
-                <p className="testimonial-quote">"Safe and comfortable rides for my family. The drivers are always courteous and the cars are spotless."</p>
+                <p className="testimonial-quote">&quot;Safe and comfortable rides for my family. The drivers are always courteous and the cars are spotless.&quot;</p>
                 <p className="testimonial-author">- Amit S. (Family Man)</p>
                 <div className="testimonial-divider"></div>
                 <div className="testimonial-rating">
