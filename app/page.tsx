@@ -13,6 +13,9 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(1);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [bookingType, setBookingType] = useState('now'); // 'now' or 'schedule'
+  const [submitStatus, setSubmitStatus] = useState(''); // '', 'success', 'error'
+  const [submitMessage, setSubmitMessage] = useState('');
   
   // Use responsive sizing hook for hero logo
   const { width: logoWidth, height: logoHeight, marginBottom: logoMarginBottom } = useResponsiveSize();
@@ -92,6 +95,18 @@ export default function Home() {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitStatus('success');
+    setSubmitMessage('Booking request submitted successfully! We will contact you soon.');
+    
+    // Reset status after 5 seconds
+    setTimeout(() => {
+      setSubmitStatus('');
+      setSubmitMessage('');
+    }, 5000);
   };
 
   useEffect(() => {
@@ -316,45 +331,89 @@ export default function Home() {
       {/* Booking Form Section */}
       <section className="booking-form-section" id="form">
         <div className="booking-card">
-          <div className="form-group">
-            <input type="text" placeholder="Schedule Pickup" className="form-input" />
-            <span className="calendar-icon">📅</span>
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Full Name" className="form-input" />
-          </div>
-          <div className="form-group">
-            <input type="tel" placeholder="Phone Number" className="form-input" />
-          </div>
-          <div className="radio-group">
-            <label className="radio-option">
-              <input type="radio" name="trip-type" value="one-way" defaultChecked />
-              <span className="radio-custom"></span>
-              One Way
-            </label>
-            <label className="radio-option">
-              <input type="radio" name="trip-type" value="round-trip" />
-              <span className="radio-custom"></span>
-              Round Trip
-            </label>
-            <label className="radio-option">
-              <input type="radio" name="trip-type" value="outstation" />
-              <span className="radio-custom"></span>
-              Outstation
-            </label>
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Pickup Location" className="form-input" />
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Drop Location" className="form-input" />
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Date" className="form-input" onFocus={(e) => e.target.type = 'date'} onBlur={(e) => e.target.type = 'text'} />
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Time" className="form-input" onFocus={(e) => e.target.type = 'time'} onBlur={(e) => e.target.type = 'text'} />
-          </div>
+          <form onSubmit={handleFormSubmit}>
+            {/* Booking Type Selection */}
+            <div className="form-group">
+              <select 
+                value={bookingType}
+                onChange={(e) => setBookingType(e.target.value)}
+                className="form-input booking-type-select"
+              >
+                <option value="now">Book Now</option>
+                <option value="schedule">Schedule Pickup</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <input type="text" placeholder="Full Name" className="form-input" required />
+            </div>
+            <div className="form-group">
+              <input type="tel" placeholder="Phone Number" className="form-input" required />
+            </div>
+            
+            <div className="radio-group">
+              <label className="radio-option">
+                <input type="radio" name="trip-type" value="one-way" defaultChecked />
+                <span className="radio-custom"></span>
+                One Way
+              </label>
+              <label className="radio-option">
+                <input type="radio" name="trip-type" value="round-trip" />
+                <span className="radio-custom"></span>
+                Round Trip
+              </label>
+              <label className="radio-option">
+                <input type="radio" name="trip-type" value="outstation" />
+                <span className="radio-custom"></span>
+                Outstation
+              </label>
+            </div>
+            
+            <div className="form-group">
+              <input type="text" placeholder="Pickup Location" className="form-input" required />
+            </div>
+            <div className="form-group">
+              <input type="text" placeholder="Drop Location" className="form-input" required />
+            </div>
+            
+            {/* Date and Time fields - only show when scheduling */}
+            {bookingType === 'schedule' && (
+              <>
+                <div className="form-group">
+                  <input 
+                    type="text" 
+                    placeholder="Date" 
+                    className="form-input" 
+                    onFocus={(e) => e.target.type = 'date'} 
+                    onBlur={(e) => e.target.type = 'text'} 
+                    required 
+                  />
+                </div>
+                <div className="form-group">
+                  <input 
+                    type="text" 
+                    placeholder="Time" 
+                    className="form-input" 
+                    onFocus={(e) => e.target.type = 'time'} 
+                    onBlur={(e) => e.target.type = 'text'} 
+                    required 
+                  />
+                </div>
+              </>
+            )}
+            
+            {/* Submit Button */}
+            <button type="submit" className="btn btn-primary submit-btn">
+              {bookingType === 'now' ? 'Book Now' : 'Schedule Pickup'}
+            </button>
+            
+            {/* Status Message */}
+            {submitStatus && (
+              <div className={`status-message ${submitStatus}`}>
+                {submitMessage}
+              </div>
+            )}
+          </form>
         </div>
       </section>
 
