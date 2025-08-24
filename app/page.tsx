@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useResponsiveSize } from "./hooks/useResponsiveSize";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
@@ -12,6 +13,9 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(1);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Use responsive sizing hook for hero logo
+  const { width: logoWidth, height: logoHeight, marginBottom: logoMarginBottom } = useResponsiveSize();
 
   // Carousel navigation functions (commented out since navigation buttons are disabled)
   // const nextTestimonial = () => {
@@ -267,13 +271,26 @@ export default function Home() {
       {/* Hero Section */}
       <main className="hero" id="home">
         <div className="hero-background">
-          <Image src="/hero-image.png" alt="Man leaning against modern sedan car" className="hero-bg-img" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
+          <Image src="/HERO-IMAGE-01.png" alt="Man leaning against modern sedan car" className="hero-bg-img" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
         </div>
         <div className="hero-overlay">
           <div className="container">
             <div className="hero-content">
               <div className="hero-logo">
-                <Image src="/dropico-logo-3.png" alt="Dropico Logo" width={2000} height={800} className="dropico-logo" />
+                {logoWidth > 0 && logoHeight > 0 && (
+                  <Image 
+                    src="/dropico-logo-3.png" 
+                    alt="Dropico Logo" 
+                    width={logoWidth} 
+                    height={logoHeight} 
+                    className="dropico-logo" 
+                    style={{
+                      width: `${logoWidth}px`,
+                      height: `${logoHeight}px`,
+                      marginBottom: `${logoMarginBottom}px`
+                    }}
+                  />
+                )}
               </div>
               <h2 className="hero-title">Ride Easy, Arrive Happy</h2>
               <div className="hero-actions">

@@ -267,17 +267,20 @@ body {
     opacity: 0;
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    /* Make container more flexible for dynamic sizing */
+    min-height: 200px;
+    max-height: 80vh;
 }
 
 .hero-logo .dropico-logo {
     filter: none;
-    margin-bottom: 10rem;
-    transition: all 0.3s ease;
     position: relative;
     z-index: 101;
     mix-blend-mode: normal;
-    height: 800px;
-    width: 800px;
+    /* Dynamic sizing will be handled by inline styles */
+    /* Remove any conflicting animations */
+    animation: none;
+    transform: none;
 }
 
 .hero-tagline {
@@ -1577,11 +1580,7 @@ body {
     .hero-logo {
         justify-content: flex-start;
         align-items: center;
-    }
-    
-    .hero-logo .dropico-logo {
-        width: 580px !important;
-        height: 580px !important;
+        padding-left: 30px;
     }
 }
 
@@ -1592,12 +1591,7 @@ body {
         align-items: center;
         order: -1;
         z-index: 10;
-    }
-    
-    .hero-logo .dropico-logo {
-        width: 800px !important;
-        height: 800px !important;
-        margin-bottom: 30rem !important;
+        padding-left: 20px;
     }
 }
 
@@ -1606,11 +1600,7 @@ body {
         height: 40vh;
         padding-bottom: 3rem;
         justify-content: flex-start;
-    }
-    
-    .hero-logo .dropico-logo {
-        width: 600px !important;
-        height: 600px !important;
+        padding-left: 15px;
     }
 }
 
@@ -1618,11 +1608,8 @@ body {
     .hero-logo {
         justify-content: flex-start;
         align-items: center;
-    }
-    
-    .hero-logo .dropico-logo {
-        width: 120px !important;
-        height: 48px !important;
+        padding-left: 10px;
+        height: 35vh;
     }
 }
 
@@ -1930,11 +1917,6 @@ body {
     .hero-logo {
         height: 30vh;
         justify-content: center;
-    }
-    
-    .hero-logo .dropico-logo {
-        width: 450px !important;
-        height: 450px !important;
     }
     
     .hero-logo-bg {
