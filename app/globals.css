@@ -1579,13 +1579,13 @@ body {
 }
 
 .star {
-    color: #ffffff;
+    color: #FFD700;
     font-size: 1.4rem;
     transition: all 0.3s ease;
 }
 
 .testimonial-card.active .star {
-    color: #ffffff;
+    color: #FFD700;
     transform: scale(1.1);
 }
 
