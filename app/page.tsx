@@ -11,6 +11,7 @@ export default function Home() {
   const [isDriversBackgroundExpanded, setIsDriversBackgroundExpanded] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(1);
   const [windowWidth, setWindowWidth] = useState(1200);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Carousel navigation functions (commented out since navigation buttons are disabled)
   // const nextTestimonial = () => {
@@ -81,6 +82,14 @@ export default function Home() {
     setActiveSection(current);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   useEffect(() => {
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
@@ -98,6 +107,9 @@ export default function Home() {
             block: 'start'
           });
         }
+        
+        // Close mobile menu when link is clicked
+        closeMobileMenu();
       });
     });
 
@@ -231,7 +243,7 @@ export default function Home() {
           <div className="logo">
             <img src="/image 8.png" alt="Dropico Logo Background" />
           </div>
-          <nav className="nav">
+          <nav className={`nav ${isMobileMenuOpen ? 'nav-open' : ''}`}>
             <ul className="nav-list">
               <li><a href="#home" className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}>Home</a></li>
               <li><a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`}>Services</a></li>
@@ -240,6 +252,15 @@ export default function Home() {
               <li><a href="#contact" className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}>Contact</a></li>
             </ul>
           </nav>
+          <button 
+            className={`hamburger-menu ${isMobileMenuOpen ? 'active' : ''}`}
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+          </button>
         </div>
       </header>
 
