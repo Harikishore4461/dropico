@@ -259,9 +259,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     height: 50vh;
-    padding-top: 2rem;
+    padding-top: 0;
     animation: slideUpFromBottom 1.5s ease-out 0s forwards;
     transform: translateY(100%);
     opacity: 0;
@@ -271,13 +271,13 @@ body {
 
 .hero-logo .dropico-logo {
     filter: none;
-    margin-bottom: 1rem;
+    margin-bottom: 10rem;
     transition: all 0.3s ease;
     position: relative;
     z-index: 101;
     mix-blend-mode: normal;
-    height: 100px;
-    width: 350px;
+    height: 800px;
+    width: 800px;
 }
 
 .hero-tagline {
@@ -1575,32 +1575,49 @@ body {
 /* Responsive Design for Dropico Logo */
 @media (max-width: 1200px) {
     .hero-logo {
-        top: 12%;
-        right: 8%;
+        justify-content: flex-start;
+        align-items: center;
     }
     
     .hero-logo .dropico-logo {
-        width: 180px !important;
-        height: 72px !important;
+        width: 580px !important;
+        height: 580px !important;
+    }
+}
+
+/* iPad specific breakpoint */
+@media (min-width: 820px) and (max-width: 1180px) {
+    .hero-logo {
+        justify-content: center;
+        align-items: center;
+        order: -1;
+        z-index: 10;
+    }
+    
+    .hero-logo .dropico-logo {
+        width: 800px !important;
+        height: 800px !important;
+        margin-bottom: 30rem !important;
     }
 }
 
 @media (max-width: 768px) {
     .hero-logo {
         height: 40vh;
-        padding-top: 1.5rem;
+        padding-bottom: 3rem;
+        justify-content: flex-start;
     }
     
     .hero-logo .dropico-logo {
-        width: 150px !important;
-        height: 60px !important;
+        width: 600px !important;
+        height: 600px !important;
     }
 }
 
 @media (max-width: 480px) {
     .hero-logo {
-        top: 8%;
-        right: 3%;
+        justify-content: flex-start;
+        align-items: center;
     }
     
     .hero-logo .dropico-logo {
@@ -1912,12 +1929,12 @@ body {
     
     .hero-logo {
         height: 30vh;
-        padding-top: 1rem;
+        justify-content: center;
     }
     
     .hero-logo .dropico-logo {
-        width: 200px !important;
-        height: 60px !important;
+        width: 450px !important;
+        height: 450px !important;
     }
     
     .hero-logo-bg {
@@ -1976,7 +1993,7 @@ body {
     }
     
     .testimonial-card {
-        flex: 0 0 300px;
+        flex: 0 0 292px;
         height: 300px;
         padding: 1.5rem;
         min-height: 300px; /* Ensure minimum height */

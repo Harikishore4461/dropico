@@ -273,7 +273,7 @@ export default function Home() {
           <div className="container">
             <div className="hero-content">
               <div className="hero-logo">
-                <Image src="/dropico-logo-1.png" alt="Dropico Logo" width={200} height={80} className="dropico-logo" />
+                <Image src="/dropico-logo-3.png" alt="Dropico Logo" width={2000} height={800} className="dropico-logo" />
               </div>
               <h2 className="hero-title">Ride Easy, Arrive Happy</h2>
               <div className="hero-actions">
@@ -616,7 +616,7 @@ export default function Home() {
         </div>
         <div className="footer-copyright">
           <div className="container">
-            <p>© 2005 All rights reserved</p>
+            <p>© 2025 All rights reserved</p>
           </div>
         </div>
       </footer>
