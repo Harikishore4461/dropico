@@ -35,20 +35,20 @@ export default function Home() {
     
     if (isSmallMobile) {
       cardWidth = 300;
-      gap = 8;
+      gap = 24;
     } else if (isMobile) {
       cardWidth = 350;
-      gap = 16;
+      gap = 32;
     } else if (windowWidth <= 1200) {
       cardWidth = 420;
-      gap = 24;
+      gap = 64;
     } else {
       cardWidth = 450;
-      gap = 32;
+      gap = 64;
     }
     
     const totalCardWidth = cardWidth + gap;
-    const containerWidth = isMobile ? windowWidth : 1200; // Container width
+    const containerWidth = windowWidth; // Use full window width
     const centerOffset = (containerWidth - cardWidth) / 2;
     return -currentTestimonial * totalCardWidth + centerOffset;
   };
@@ -150,10 +150,8 @@ export default function Home() {
         const rect = servicesSection.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
-        if (rect.top < windowHeight * 0.5) {
+        if (rect.top < windowHeight * 0.5 && !isServicesExpanded) {
           setIsServicesExpanded(true);
-        } else {
-          setIsServicesExpanded(false);
         }
       };
       
@@ -256,6 +254,18 @@ export default function Home() {
               <li><a href="#contact" className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}>Contact</a></li>
             </ul>
           </nav>
+
+          <a href="tel:+917592933933" className="phone-section">
+            <div className="phone-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="phone-info">
+              <div className="phone-number">+91 9677743403</div>
+              <div className="phone-label">PHONE LINE</div>
+            </div>
+          </a>
           <button 
             className={`hamburger-menu ${isMobileMenuOpen ? 'active' : ''}`}
             onClick={toggleMobileMenu}
@@ -294,9 +304,9 @@ export default function Home() {
               </div>
               <h2 className="hero-title">Ride Easy, Arrive Happy</h2>
               <div className="hero-actions">
-                <button className="btn btn-primary">BOOK NOW</button>
-                <span className="or-divider">OR</span>
-                <button className="btn btn-secondary">QUICK CALL</button>
+                <button className="btn btn-primary">Hire a driver</button>
+                {/* <span className="or-divider">OR</span>
+                <button className="btn btn-secondary">QUICK CALL</button> */}
               </div>
             </div>
           </div>
