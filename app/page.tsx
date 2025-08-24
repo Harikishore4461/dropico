@@ -241,7 +241,7 @@ export default function Home() {
       <header className="header">
         <div className="container">
           <div className="logo">
-            <img src="/image 8.png" alt="Dropico Logo Background" />
+            <img src="/navbar-logo.png" alt="Dropico Logo Background" />
           </div>
           <nav className={`nav ${isMobileMenuOpen ? 'nav-open' : ''}`}>
             <ul className="nav-list">
@@ -267,7 +267,7 @@ export default function Home() {
       {/* Hero Section */}
       <main className="hero" id="home">
         <div className="hero-background">
-          <Image src="/hero-man-car.png" alt="Man leaning against modern sedan car" className="hero-bg-img" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
+          <Image src="/hero-image.png" alt="Man leaning against modern sedan car" className="hero-bg-img" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
         </div>
         <div className="hero-overlay">
           <div className="container">
@@ -455,7 +455,7 @@ export default function Home() {
               <h3 className={`drivers-subtitle ${isDriversAnimated ? 'animate' : ''}`}>FOR DRIVERS</h3>
               <h2 className={`drivers-title ${isDriversAnimated ? 'animate' : ''}`}>Earn with Us?</h2>
               <p className={`drivers-description ${isDriversAnimated ? 'animate' : ''}`}>Are you a skilled driver committed to giving outstanding service? Become a part of our dedicated driving team. We&apos;re looking for pros like you!</p>
-              <button className={`btn btn-primary ${isDriversAnimated ? 'animate' : ''}`} style={{borderRadius: '10%'}}>
+              <button className={`btn btn-primary ${isDriversAnimated ? 'animate' : ''}`}>
                 Join as a DROPSTER !
               </button>
             </div>

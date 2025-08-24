@@ -45,6 +45,11 @@ body {
     padding-left: 20px;
 }
 
+.logo img {
+    width: 205px;
+    height: 53px;
+}
+
 .nav {
     margin-left: auto;
     padding-right: 0;
@@ -1673,6 +1678,8 @@ body {
         width: 100%;
         text-align: center;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin: 0.2rem 0;
     }
     
     .nav-link:last-child {
@@ -1681,8 +1688,10 @@ body {
     
     .nav-link:hover,
     .nav-link.active {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.15);
         color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     
     .hero-logo-bg {
@@ -1787,6 +1796,16 @@ body {
     .nav-link {
         font-size: 1rem;
         padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        margin: 0.15rem 0;
+    }
+    
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
     
     .hamburger-menu {
@@ -1867,6 +1886,10 @@ body {
         grid-template-columns: 1fr;
         gap: 2rem;
         text-align: center;
+    }
+    
+    .footer-column:not(:last-child)::after {
+        display: none;
     }
     
     .footer-logo {
