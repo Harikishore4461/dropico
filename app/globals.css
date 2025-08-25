@@ -608,6 +608,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
+
+.booking-form-section.animate {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .booking-card {
@@ -617,12 +625,81 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     max-width: 500px;
     width: 100%;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: all 0.6s ease-out 0.2s;
+}
+
+.booking-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Form Animation Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .form-group {
     margin-bottom: 20px;
     position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
 }
+
+.form-group.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-group:nth-child(1).animate { transition-delay: 0.3s; }
+.form-group:nth-child(2).animate { transition-delay: 0.4s; }
+.form-group:nth-child(3).animate { transition-delay: 0.5s; }
+.form-group:nth-child(4).animate { transition-delay: 0.6s; }
+.form-group:nth-child(5).animate { transition-delay: 0.7s; }
+.form-group:nth-child(6).animate { transition-delay: 0.8s; }
+.form-group:nth-child(7).animate { transition-delay: 0.9s; }
+.form-group:nth-child(8).animate { transition-delay: 1.0s; }
 
 .form-input {
     width: 100%;
@@ -633,7 +710,14 @@ body {
     font-size: 16px;
     color: #333;
     outline: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.form-input:focus {
+    background-color: #F0F2F5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(69, 104, 126, 0.15);
 }
 
 .form-input::placeholder {
@@ -660,6 +744,14 @@ body {
     justify-content: space-between;
     margin-bottom: 30px;
     gap: 15px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out 0.6s;
+}
+
+.radio-group.animate {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .radio-option {
@@ -688,6 +780,7 @@ body {
 .radio-option input[type="radio"]:checked + .radio-custom {
     border-color: #45687E;
     background-color: #45687E;
+    animation: pulse 0.3s ease;
 }
 
 .radio-option input[type="radio"]:checked + .radio-custom::after {
@@ -700,6 +793,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation: fadeIn 0.2s ease;
 }
 
 /* Booking Type Dropdown Styles */
@@ -764,16 +858,55 @@ body {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     margin-top: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out 1.1s;
+}
+
+.submit-btn.animate {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .submit-btn:hover {
     background-color: #3a5a6b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(69, 104, 126, 0.3);
 }
 
 .submit-btn:active {
-    transform: translateY(1px);
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(69, 104, 126, 0.2);
+}
+
+.submit-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(69, 104, 126, 0.3);
+}
+
+.submit-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.submit-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Status Message Styles */
@@ -784,7 +917,21 @@ body {
     font-size: 14px;
     font-weight: 500;
     text-align: center;
-    animation: fadeIn 0.3s ease;
+    animation: slideInDown 0.4s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .status-message.success {
@@ -2795,6 +2942,29 @@ html {
         font-size: clamp(0.7rem, 1.8vw, 0.8rem);
         padding: 0.7rem 1.5rem;
     }
+    
+    /* Tablet Booking Form Styles */
+    .booking-form-section {
+        padding: 50px 20px;
+    }
+    
+    .booking-card {
+        padding: 35px 25px;
+        border-radius: 25px;
+        margin: 0 auto;
+    }
+    
+    .submit-btn {
+        width: 100%;
+        display: block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .radio-group {
+        gap: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2838,5 +3008,47 @@ html {
     
     .nav-link {
         font-size: clamp(12px, 2vw, 14px);
+    }
+    
+    /* Mobile Booking Form Styles */
+    .booking-form-section {
+        padding: 40px 15px;
+    }
+    
+    .booking-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    .form-input {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    
+    .radio-option {
+        font-size: 14px;
+        padding: 8px 0;
+    }
+    
+    .submit-btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 14px;
+        margin-top: 25px;
+        display: block;
+        text-align: center;
+    }
+    
+    .booking-type-select {
+        font-size: 14px;
+        padding: 12px 15px;
     }
 }

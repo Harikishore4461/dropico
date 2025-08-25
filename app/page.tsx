@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useResponsiveSize } from "./hooks/useResponsiveSize";
 import { useHeroParallax } from "./hooks/useParallax";
+import { useScrollAnimation } from "./hooks/useScrollAnimation";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
@@ -23,6 +24,15 @@ export default function Home() {
   
   // Use parallax hook for hero section
   const { backgroundRef, contentRef } = useHeroParallax();
+  
+  // Use scroll animation hook for form section
+  const { 
+    formSectionRef, 
+    bookingCardRef, 
+    formGroupsRef, 
+    radioGroupRef, 
+    submitBtnRef 
+  } = useScrollAnimation();
 
   // Carousel navigation functions (commented out since navigation buttons are disabled)
   // const nextTestimonial = () => {
@@ -333,11 +343,11 @@ export default function Home() {
       </main>
 
       {/* Booking Form Section */}
-      <section className="booking-form-section" id="form">
-        <div className="booking-card">
+      <section className="booking-form-section" id="form" ref={formSectionRef}>
+        <div className="booking-card" ref={bookingCardRef}>
           <form onSubmit={handleFormSubmit}>
             {/* Booking Type Selection */}
-            <div className="form-group">
+            <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[0] = el; }}>
               <select 
                 value={bookingType}
                 onChange={(e) => setBookingType(e.target.value)}
@@ -348,14 +358,14 @@ export default function Home() {
               </select>
             </div>
 
-            <div className="form-group">
+            <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[1] = el; }}>
               <input type="text" placeholder="Full Name" className="form-input" required />
             </div>
-            <div className="form-group">
+            <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[2] = el; }}>
               <input type="tel" placeholder="Phone Number" className="form-input" required />
             </div>
             
-            <div className="radio-group">
+            <div className="radio-group" ref={radioGroupRef}>
               <label className="radio-option">
                 <input type="radio" name="trip-type" value="one-way" defaultChecked />
                 <span className="radio-custom"></span>
@@ -373,17 +383,17 @@ export default function Home() {
               </label>
             </div>
             
-            <div className="form-group">
+            <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[3] = el; }}>
               <input type="text" placeholder="Pickup Location" className="form-input" required />
             </div>
-            <div className="form-group">
+            <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[4] = el; }}>
               <input type="text" placeholder="Drop Location" className="form-input" required />
             </div>
             
             {/* Date and Time fields - only show when scheduling */}
             {bookingType === 'schedule' && (
               <>
-                <div className="form-group">
+                <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[5] = el; }}>
                   <input 
                     type="text" 
                     placeholder="Date" 
@@ -393,7 +403,7 @@ export default function Home() {
                     required 
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[6] = el; }}>
                   <input 
                     type="text" 
                     placeholder="Time" 
@@ -407,7 +417,7 @@ export default function Home() {
             )}
             
             {/* Submit Button */}
-            <button type="submit" className="btn btn-primary submit-btn">
+            <button type="submit" className="btn btn-primary submit-btn" ref={submitBtnRef}>
               {bookingType === 'now' ? 'Book Now' : 'Schedule Pickup'}
             </button>
             
