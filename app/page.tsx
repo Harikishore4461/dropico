@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useResponsiveSize } from "./hooks/useResponsiveSize";
+import { useHeroParallax } from "./hooks/useParallax";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
@@ -19,6 +20,9 @@ export default function Home() {
   
   // Use responsive sizing hook for hero logo
   const { width: logoWidth, height: logoHeight, marginBottom: logoMarginBottom } = useResponsiveSize();
+  
+  // Use parallax hook for hero section
+  const { backgroundRef, contentRef } = useHeroParallax();
 
   // Carousel navigation functions (commented out since navigation buttons are disabled)
   // const nextTestimonial = () => {
@@ -295,12 +299,12 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="hero" id="home">
-        <div className="hero-background">
+        <div className="hero-background" ref={backgroundRef}>
           <Image src="/HERO-IMAGE-01.png" alt="Man leaning against modern sedan car" className="hero-bg-img" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
         </div>
         <div className="hero-overlay">
           <div className="container">
-            <div className="hero-content">
+            <div className="hero-content" ref={contentRef}>
               <div className="hero-logo">
                 {logoWidth > 0 && logoHeight > 0 && (
                   <Image 

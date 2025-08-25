@@ -42,6 +42,7 @@ body {
     color: #333;
     overflow-x: hidden;
     font-size: 16px; /* Base font size */
+    scroll-behavior: smooth;
 }
 
 /* Responsive font sizes */
@@ -336,6 +337,8 @@ body {
     z-index: 1;
     height: 100%;
     overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .hero-bg-img {
@@ -392,6 +395,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .hero-logo-bg {
