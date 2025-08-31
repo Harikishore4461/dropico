@@ -78,13 +78,18 @@ export const getCurrentTimestamp = (): string => {
 
 // Transform form data to sheet format
 export const transformFormDataToSheet = (formData: FormData): SheetData => {
+  // For round trips, if drop location is empty, use pickup location
+  const dropLocation = formData.tripType === 'round-trip' && !formData.dropLocation.trim() 
+    ? formData.pickupLocation 
+    : formData.dropLocation;
+
   return {
     'Booking Type': formData.bookingType === 'now' ? 'Book Now' : 'Schedule Pickup',
     'Full Name': formData.fullName,
     'Phone Number': formData.phoneNumber,
     'Trip Type': formData.tripType,
     'Pickup Location': formData.pickupLocation,
-    'Drop Location': formData.dropLocation,
+    'Drop Location': dropLocation,
     'Date': formData.date ? formatDate(formData.date) : 'Immediate',
     'Time': formData.time ? formatTime(formData.time) : 'Immediate',
     'Created At': getCurrentTimestamp()
@@ -142,7 +147,8 @@ export const validateFormData = (formData: FormData): { isValid: boolean; errors
     errors.push('Pickup location is required');
   }
 
-  if (!formData.dropLocation.trim()) {
+  // For round trips, drop location is not required (same as pickup)
+  if (formData.tripType !== 'round-trip' && !formData.dropLocation.trim()) {
     errors.push('Drop location is required');
   }
 

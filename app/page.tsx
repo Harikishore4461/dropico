@@ -19,6 +19,7 @@ export default function Home() {
   const [bookingType, setBookingType] = useState('schedule'); // 'now' or 'schedule'
   const [submitStatus, setSubmitStatus] = useState(''); // '', 'success', 'error'
   const [submitMessage, setSubmitMessage] = useState('');
+  const [validationMessage, setValidationMessage] = useState('');
   
   // Form state
   const [formData, setFormData] = useState({
@@ -30,6 +31,90 @@ export default function Home() {
     date: '',
     time: ''
   });
+
+  // Date and time validation helpers
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
+  const getMinTime = () => {
+    const now = new Date();
+    const currentTime = now.toTimeString().slice(0, 5);
+    
+    // If date is today, use current time, otherwise allow any time
+    if (formData.date === getMinDate()) {
+      return currentTime;
+    }
+    return '';
+  };
+
+  const formatTimeForDisplay = (timeString: string) => {
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = e.target.value;
+    const today = new Date();
+    const selected = new Date(selectedDate);
+    
+    // Clear any previous validation message
+    setValidationMessage('');
+    
+    // If selected date is today, reset time to ensure it's not in the past
+    if (selectedDate === getMinDate() && formData.time) {
+      const currentTime = today.toTimeString().slice(0, 5);
+      if (formData.time < currentTime) {
+        setFormData({...formData, date: selectedDate, time: ''});
+        return;
+      }
+    }
+    
+    setFormData({...formData, date: selectedDate});
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedTime = e.target.value;
+    const minTime = getMinTime();
+    
+    // Clear any previous validation message
+    setValidationMessage('');
+    
+    // Validate time is not in the past
+    if (minTime && selectedTime < minTime) {
+      setValidationMessage(`Please select a time after ${formatTimeForDisplay(minTime)} for today's date.`);
+      return; // Don't update if time is in the past
+    }
+    
+    setFormData({...formData, time: selectedTime});
+    
+    // Close the time picker after a valid selection
+    setTimeout(() => {
+      e.target.blur();
+    }, 100);
+  };
+
+  const handleTripTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTripType = e.target.value;
+    
+    // If switching to round trip, clear drop location
+    if (newTripType === 'round-trip') {
+      setFormData({
+        ...formData,
+        tripType: newTripType,
+        dropLocation: ''
+      });
+    } else {
+      setFormData({
+        ...formData,
+        tripType: newTripType
+      });
+    }
+  };
   
   // Use responsive sizing hook for hero logo
   const { width: logoWidth, height: logoHeight, marginBottom: logoMarginBottom } = useResponsiveSize();
@@ -119,10 +204,18 @@ export default function Home() {
     setSubmitMessage('');
     
     // Prepare form data for validation and submission
-    const dataToSubmit = {
+    let dataToSubmit = {
       bookingType,
       ...formData
     };
+
+    // For round trips, set drop location to pickup location if not provided
+    if (formData.tripType === 'round-trip' && !formData.dropLocation.trim()) {
+      dataToSubmit = {
+        ...dataToSubmit,
+        dropLocation: formData.pickupLocation
+      };
+    }
     
     // Validate form data
     const validation = validateFormData(dataToSubmit);
@@ -192,14 +285,14 @@ export default function Home() {
 
 
   useEffect(() => {
-    if (bookingType == 'now') return;
+    // if (bookingType == 'now') return;
 
     formGroupsRef.current.forEach((group) => {
       if (group && !group!.classList!.contains('animate')) {
         group.classList.add('animate');
       }
     });
-  }, [bookingType]);
+  }, [formData, bookingType]);
 
   useEffect(() => {
     // Smooth scrolling for navigation links
@@ -468,7 +561,7 @@ export default function Home() {
                   name="trip-type" 
                   value="one-way" 
                   checked={formData.tripType === 'one-way'}
-                  onChange={(e) => setFormData({...formData, tripType: e.target.value})}
+                  onChange={handleTripTypeChange}
                 />
                 <span className="radio-custom"></span>
                 One Way
@@ -479,7 +572,7 @@ export default function Home() {
                   name="trip-type" 
                   value="round-trip" 
                   checked={formData.tripType === 'round-trip'}
-                  onChange={(e) => setFormData({...formData, tripType: e.target.value})}
+                  onChange={handleTripTypeChange}
                 />
                 <span className="radio-custom"></span>
                 Round Trip
@@ -490,7 +583,7 @@ export default function Home() {
                   name="trip-type" 
                   value="outstation" 
                   checked={formData.tripType === 'outstation'}
-                  onChange={(e) => setFormData({...formData, tripType: e.target.value})}
+                  onChange={handleTripTypeChange}
                 />
                 <span className="radio-custom"></span>
                 Outstation
@@ -507,43 +600,52 @@ export default function Home() {
                 required 
               />
             </div>
-            <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[4] = el; }}>
-              <input 
-                type="text" 
-                placeholder="Drop Location" 
-                className="form-input" 
-                value={formData.dropLocation}
-                onChange={(e) => setFormData({...formData, dropLocation: e.target.value})}
-                required 
-              />
-            </div>
+            {formData.tripType !== 'round-trip' && (
+              <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[4] = el; }}>
+                <input 
+                  type="text" 
+                  placeholder="Drop Location" 
+                  className="form-input" 
+                  value={formData.dropLocation}
+                  onChange={(e) => setFormData({...formData, dropLocation: e.target.value})}
+                  required 
+                />
+              </div>
+            )}
             
             {/* Date and Time fields - only show when scheduling */}
             {bookingType === 'schedule' && (
               <>
                 <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[5] = el; }}>
                   <input 
-                    type="text" 
+                    type="date" 
                     placeholder="Date" 
                     className="form-input" 
                     value={formData.date}
-                    onChange={(e) => setFormData({...formData, date: e.target.value})}
-                    onFocus={(e) => e.target.type = 'date'} 
-                    onBlur={(e) => e.target.type = 'text'} 
+                    onChange={handleDateChange}
+                    onBlur={() => setValidationMessage('')}
+                    min={getMinDate()}
+                    onClick={(e) => e.currentTarget.showPicker?.()}
                     required 
                   />
                 </div>
                 <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[6] = el; }}>
                   <input 
-                    type="text" 
+                    type="time" 
                     placeholder="Time" 
                     className="form-input" 
                     value={formData.time}
-                    onChange={(e) => setFormData({...formData, time: e.target.value})}
-                    onFocus={(e) => e.target.type = 'time'} 
-                    onBlur={(e) => e.target.type = 'text'} 
+                    onChange={handleTimeChange}
+                    onBlur={() => setValidationMessage('')}
+                    min={getMinTime()}
+                    onClick={(e) => e.currentTarget.showPicker?.()}
                     required 
                   />
+                  {validationMessage && (
+                    <div className="validation-message">
+                      {validationMessage}
+                    </div>
+                  )}
                 </div>
               </>
             )}

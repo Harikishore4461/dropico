@@ -742,6 +742,76 @@ body {
     background-color: #F0F2F5;
 }
 
+/* Date and Time Input Styling */
+.form-input[type="date"],
+.form-input[type="time"] {
+    cursor: pointer;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 45px;
+}
+
+.form-input[type="date"]::-webkit-calendar-picker-indicator,
+.form-input[type="time"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+.form-input[type="date"]::-webkit-datetime-edit,
+.form-input[type="time"]::-webkit-datetime-edit {
+    color: #333;
+}
+
+.form-input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.form-input[type="time"]::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+}
+
+.form-input[type="date"]::-webkit-datetime-edit-text,
+.form-input[type="time"]::-webkit-datetime-edit-text {
+    color: #a0a0a0;
+    padding: 0 2px;
+}
+
+.form-input[type="date"]::-webkit-datetime-edit-month-field,
+.form-input[type="date"]::-webkit-datetime-edit-day-field,
+.form-input[type="date"]::-webkit-datetime-edit-year-field,
+.form-input[type="time"]::-webkit-datetime-edit-hour-field,
+.form-input[type="time"]::-webkit-datetime-edit-minute-field {
+    color: #333;
+}
+
+/* Hover effect for date/time inputs */
+.form-input[type="date"]:hover,
+.form-input[type="time"]:hover {
+    background-color: #e8eaed;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(69, 104, 126, 0.1);
+}
+
+/* Validation Message Styling */
+.validation-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-radius: 5px;
+    border-left: 3px solid #e74c3c;
+    animation: fadeIn 0.3s ease;
+}
+
 .calendar-icon {
     position: absolute;
     right: 20px;
@@ -1523,11 +1593,18 @@ body {
 }
 
 @media (max-width: 480px) {
+    .for-drivers {
+        min-height: 55vh;
+    }
     .drivers-bg-img {
         object-position: 65% center !important;
     }
     .drivers-overlay {
         align-items : flex-end !important;
+    }
+    .drivers-content {
+        padding: 2rem 2rem 0rem 1.5rem !important;
+        width: 60%;
     }
 }
 
@@ -1547,13 +1624,14 @@ body {
 
 .drivers-overlay .container {
     margin: 0;
-    padding-left: 2rem;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .drivers-content {
     max-width: 600px;
     color: white;
-    padding: 2rem;
+    padding: 2rem 2rem 2rem 1.5rem;
     text-align: left;
     opacity: 0;
     transform: translateY(50px);
