@@ -1097,7 +1097,6 @@ body {
 }
 
 .service-price {
-    margin-bottom: 1rem;
     transition: all 0.3s ease;
 }
 
@@ -1109,7 +1108,6 @@ body {
     display: block;
     font-size: 0.8rem;
     color: #cbd5e1;
-    margin-bottom: 0.5rem;
     transition: all 0.3s ease;
 }
 
@@ -1283,7 +1281,8 @@ body {
 
 .driver-img {
     max-width: 100%;
-    max-height: 80%;
+    max-height: 90%;
+    min-height: fit-content;
     width: auto;
     height: 100%;
     object-fit: unset;
@@ -1459,6 +1458,7 @@ body {
         max-width: 100%;
         max-height: 100%;
         width: 90%;
+        min-height: fit-content;
     }
     
     .feature-block {
