@@ -1594,7 +1594,7 @@ body {
 
 @media (max-width: 480px) {
     .for-drivers {
-        min-height: 55vh;
+        min-height: 65vh;
     }
     .drivers-bg-img {
         object-position: 65% center !important;
@@ -1604,7 +1604,7 @@ body {
     }
     .drivers-content {
         padding: 2rem 2rem 0rem 1.5rem !important;
-        width: 60%;
+        width: 65%;
     }
 }
 
