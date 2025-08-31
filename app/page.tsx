@@ -15,7 +15,7 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(1);
   const [windowWidth, setWindowWidth] = useState(1200);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [bookingType, setBookingType] = useState('now'); // 'now' or 'schedule'
+  const [bookingType, setBookingType] = useState('schedule'); // 'now' or 'schedule'
   const [submitStatus, setSubmitStatus] = useState(''); // '', 'success', 'error'
   const [submitMessage, setSubmitMessage] = useState('');
   
@@ -122,6 +122,16 @@ export default function Home() {
       setSubmitMessage('');
     }, 5000);
   };
+
+  useEffect(() => {
+    if (bookingType == 'now') return;
+
+    formGroupsRef.current.forEach((group) => {
+      if (group && !group!.classList!.contains('animate')) {
+        group.classList.add('animate');
+      }
+    });
+  }, [bookingType]);
 
   useEffect(() => {
     // Smooth scrolling for navigation links
@@ -547,7 +557,7 @@ export default function Home() {
       {/* For Drivers Section */}
       <section className="for-drivers" id="dropster">
         <div className="drivers-background">
-          <Image src="/driver-interior.png" alt="Driver in car interior" className="drivers-bg-img" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
+          <Image src="/driver-interior.png" alt="Driver in car interior" className="drivers-bg-img" fill style={{objectFit: 'unset', objectPosition: 'center'}} />
         </div>
         <div className="drivers-overlay">
           <div className="container">
@@ -707,7 +717,7 @@ export default function Home() {
                 <div className="contact-item">
                   <img src="/call.png" alt="Phone" className="contact-icon" />
                   <div className="contact-details">
-                    <p className="contact-text">+91 96777 434 03</p>
+                    <a href="tel:+919677743403" className="contact-text">+91 96777 434 03</a>
                   </div>
                 </div>
               </div>

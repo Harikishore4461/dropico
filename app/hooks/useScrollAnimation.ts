@@ -36,14 +36,14 @@ export const useScrollAnimation = () => {
               if (radioGroupRef.current) {
                 setTimeout(() => {
                   radioGroupRef.current?.classList.add('animate');
-                }, 600);
+                }, 300);
               }
               
               // Animate submit button
               if (submitBtnRef.current) {
                 setTimeout(() => {
                   submitBtnRef.current?.classList.add('animate');
-                }, 1100);
+                }, 700);
               }
             }
           }
