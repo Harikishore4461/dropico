@@ -589,7 +589,7 @@ export default function Home() {
               <div className={`testimonial-card ${currentTestimonial === 0 ? 'active' : ''}`}>
                 <div className="testimonial-avatar">
                   <div className="avatar-icon">
-                    <img src="/dropico-driver.png" alt="Customer Avatar" />
+                    <img src="/profile.png" alt="Customer Avatar" />
                   </div>
                 </div>
                 <h4 className="testimonial-role">The Party Savior</h4>
@@ -608,7 +608,7 @@ export default function Home() {
               <div className={`testimonial-card ${currentTestimonial === 1 ? 'active' : ''}`}>
                 <div className="testimonial-avatar">
                   <div className="avatar-icon">
-                    <img src="/dropico-driver.png" alt="Customer Avatar" />
+                    <img src="/profile.png" alt="Customer Avatar" />
                   </div>
                 </div>
                 <h4 className="testimonial-role">Business Traveler</h4>
@@ -627,7 +627,7 @@ export default function Home() {
               <div className={`testimonial-card ${currentTestimonial === 2 ? 'active' : ''}`}>
                 <div className="testimonial-avatar">
                   <div className="avatar-icon">
-                    <img src="/dropico-driver.png" alt="Customer Avatar" />
+                    <img src="/profile.png" alt="Customer Avatar" />
                   </div>
                 </div>
                 <h4 className="testimonial-role">Family Traveler</h4>

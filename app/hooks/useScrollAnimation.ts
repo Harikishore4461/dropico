@@ -43,7 +43,7 @@ export const useScrollAnimation = () => {
               if (submitBtnRef.current) {
                 setTimeout(() => {
                   submitBtnRef.current?.classList.add('animate');
-                }, 700);
+                }, 400);
               }
             }
           }
