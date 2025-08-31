@@ -86,6 +86,17 @@ export default function Home() {
     }
   };
 
+  // Scroll to form section function
+  const scrollToForm = () => {
+    const formSection = document.getElementById('form');
+    if (formSection) {
+      formSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   const handleSectionScroll = () => {
     const sections = document.querySelectorAll('section, main');
     let current = '';
@@ -343,7 +354,7 @@ export default function Home() {
               </div>
               <h2 className="hero-title">Ride Easy, Arrive Happy</h2>
               <div className="hero-actions">
-                <button className="btn btn-primary">Hire a driver</button>
+                <button className="btn btn-primary" onClick={scrollToForm}>Hire a driver</button>
                 {/* <span className="or-divider">OR</span>
                 <button className="btn btn-secondary">QUICK CALL</button> */}
               </div>
@@ -354,6 +365,10 @@ export default function Home() {
 
       {/* Booking Form Section */}
       <section className="booking-form-section" id="form" ref={formSectionRef}>
+        <div className="container">
+          <h2 className="booking-title">Book Your Ride</h2>
+          <p className="booking-subtitle">Quick and easy booking for all your travel needs</p>
+        </div>
         <div className="booking-card" ref={bookingCardRef}>
           <form onSubmit={handleFormSubmit}>
             {/* Booking Type Selection */}
@@ -458,10 +473,10 @@ export default function Home() {
                 <div className="service-content">
                   <div className="service-price">
                     <span className="price-label">STARTING AT</span>
-                    <span className="price-amount">299<sup>*</sup></span>
+                    <span className="price-amount">350<sup>*</sup></span>
                   </div>
                   <p className="service-description">Just need to get there? We&apos;ll make it a ride worth remembering.</p>
-                  <button className="service-btn">BOOK NOW <span className="arrow"></span></button>
+                  <button className="service-btn" onClick={scrollToForm}>BOOK NOW <span className="arrow"></span></button>
                 </div>
               </div>
             </div>
@@ -474,10 +489,10 @@ export default function Home() {
                 <div className="service-content">
                   <div className="service-price">
                     <span className="price-label">STARTING AT</span>
-                    <span className="price-amount">299<sup>*</sup></span>
+                    <span className="price-amount">470<sup>*</sup></span>
                   </div>
                   <p className="service-description">One booking covers your entire journey, no extra calls or planning.</p>
-                  <button className="service-btn">BOOK NOW <span className="arrow"></span></button>
+                  <button className="service-btn" onClick={scrollToForm}>BOOK NOW <span className="arrow"></span></button>
                 </div>
               </div>
             </div>
@@ -490,10 +505,10 @@ export default function Home() {
                 <div className="service-content">
                   <div className="service-price">
                     <span className="price-label">STARTING AT</span>
-                    <span className="price-amount">299<sup>*</sup></span>
+                    <span className="price-amount">740<sup>*</sup></span>
                   </div>
                   <p className="service-description">Outstation Rides You Can Trust. Safe, comfortable trips beyond the city.</p>
-                  <button className="service-btn">BOOK NOW <span className="arrow"></span></button>
+                  <button className="service-btn" onClick={scrollToForm}>BOOK NOW <span className="arrow"></span></button>
                 </div>
               </div>
             </div>
