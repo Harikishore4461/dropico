@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useResponsiveSize } from "./hooks/useResponsiveSize";
 import { useHeroParallax } from "./hooks/useParallax";
 import { useScrollAnimation } from "./hooks/useScrollAnimation";
+import { submitToGoogleSheets, validateFormData } from "./utils/formHandler";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
@@ -18,6 +19,17 @@ export default function Home() {
   const [bookingType, setBookingType] = useState('schedule'); // 'now' or 'schedule'
   const [submitStatus, setSubmitStatus] = useState(''); // '', 'success', 'error'
   const [submitMessage, setSubmitMessage] = useState('');
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phoneNumber: '',
+    tripType: 'one-way',
+    pickupLocation: '',
+    dropLocation: '',
+    date: '',
+    time: ''
+  });
   
   // Use responsive sizing hook for hero logo
   const { width: logoWidth, height: logoHeight, marginBottom: logoMarginBottom } = useResponsiveSize();
@@ -97,6 +109,61 @@ export default function Home() {
     }
   };
 
+  // Form submission handler
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    console.log("SUBMT")
+    e.preventDefault();
+    
+    // Reset status
+    setSubmitStatus('');
+    setSubmitMessage('');
+    
+    // Prepare form data for validation and submission
+    const dataToSubmit = {
+      bookingType,
+      ...formData
+    };
+    
+    // Validate form data
+    const validation = validateFormData(dataToSubmit);
+    if (!validation.isValid) {
+      setSubmitStatus('error');
+      setSubmitMessage(validation.errors.join(', '));
+      return;
+    }
+    
+    // Set loading state
+    setSubmitStatus('loading');
+    
+    try {
+      // Submit to Google Sheets
+      const result = await submitToGoogleSheets(dataToSubmit);
+      
+      if (result.success) {
+        setSubmitStatus('success');
+        setSubmitMessage(result.message);
+        
+        // Reset form on success
+        setFormData({
+          fullName: '',
+          phoneNumber: '',
+          tripType: 'one-way',
+          pickupLocation: '',
+          dropLocation: '',
+          date: '',
+          time: ''
+        });
+        setBookingType('schedule');
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(result.message);
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitMessage('An unexpected error occurred. Please try again.');
+    }
+  };
+
   const handleSectionScroll = () => {
     const sections = document.querySelectorAll('section, main');
     let current = '';
@@ -122,17 +189,7 @@ export default function Home() {
     setIsMobileMenuOpen(false);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitStatus('success');
-    setSubmitMessage('Booking request submitted successfully! We will contact you soon.');
-    
-    // Reset status after 5 seconds
-    setTimeout(() => {
-      setSubmitStatus('');
-      setSubmitMessage('');
-    }, 5000);
-  };
+
 
   useEffect(() => {
     if (bookingType == 'now') return;
@@ -384,35 +441,81 @@ export default function Home() {
             </div>
 
             <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[1] = el; }}>
-              <input type="text" placeholder="Full Name" className="form-input" required />
+              <input 
+                type="text" 
+                placeholder="Full Name" 
+                className="form-input" 
+                value={formData.fullName}
+                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                required 
+              />
             </div>
             <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[2] = el; }}>
-              <input type="tel" placeholder="Phone Number" className="form-input" required />
+              <input 
+                type="tel" 
+                placeholder="Phone Number" 
+                className="form-input" 
+                value={formData.phoneNumber}
+                onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
+                required 
+              />
             </div>
             
             <div className="radio-group" ref={radioGroupRef}>
               <label className="radio-option">
-                <input type="radio" name="trip-type" value="one-way" defaultChecked />
+                <input 
+                  type="radio" 
+                  name="trip-type" 
+                  value="one-way" 
+                  checked={formData.tripType === 'one-way'}
+                  onChange={(e) => setFormData({...formData, tripType: e.target.value})}
+                />
                 <span className="radio-custom"></span>
                 One Way
               </label>
               <label className="radio-option">
-                <input type="radio" name="trip-type" value="round-trip" />
+                <input 
+                  type="radio" 
+                  name="trip-type" 
+                  value="round-trip" 
+                  checked={formData.tripType === 'round-trip'}
+                  onChange={(e) => setFormData({...formData, tripType: e.target.value})}
+                />
                 <span className="radio-custom"></span>
                 Round Trip
               </label>
               <label className="radio-option">
-                <input type="radio" name="trip-type" value="outstation" />
+                <input 
+                  type="radio" 
+                  name="trip-type" 
+                  value="outstation" 
+                  checked={formData.tripType === 'outstation'}
+                  onChange={(e) => setFormData({...formData, tripType: e.target.value})}
+                />
                 <span className="radio-custom"></span>
                 Outstation
               </label>
             </div>
             
             <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[3] = el; }}>
-              <input type="text" placeholder="Pickup Location" className="form-input" required />
+              <input 
+                type="text" 
+                placeholder="Pickup Location" 
+                className="form-input" 
+                value={formData.pickupLocation}
+                onChange={(e) => setFormData({...formData, pickupLocation: e.target.value})}
+                required 
+              />
             </div>
             <div className="form-group" ref={(el) => { if (el) formGroupsRef.current[4] = el; }}>
-              <input type="text" placeholder="Drop Location" className="form-input" required />
+              <input 
+                type="text" 
+                placeholder="Drop Location" 
+                className="form-input" 
+                value={formData.dropLocation}
+                onChange={(e) => setFormData({...formData, dropLocation: e.target.value})}
+                required 
+              />
             </div>
             
             {/* Date and Time fields - only show when scheduling */}
@@ -423,6 +526,8 @@ export default function Home() {
                     type="text" 
                     placeholder="Date" 
                     className="form-input" 
+                    value={formData.date}
+                    onChange={(e) => setFormData({...formData, date: e.target.value})}
                     onFocus={(e) => e.target.type = 'date'} 
                     onBlur={(e) => e.target.type = 'text'} 
                     required 
@@ -433,6 +538,8 @@ export default function Home() {
                     type="text" 
                     placeholder="Time" 
                     className="form-input" 
+                    value={formData.time}
+                    onChange={(e) => setFormData({...formData, time: e.target.value})}
                     onFocus={(e) => e.target.type = 'time'} 
                     onBlur={(e) => e.target.type = 'text'} 
                     required 
@@ -442,8 +549,14 @@ export default function Home() {
             )}
             
             {/* Submit Button */}
-            <button type="submit" className="btn btn-primary submit-btn" ref={submitBtnRef}>
-              {bookingType === 'now' ? 'Book Now' : 'Schedule Pickup'}
+            <button 
+              type="submit" 
+              className="btn btn-primary submit-btn" 
+              ref={submitBtnRef}
+              disabled={submitStatus === 'loading'}
+              onClick={handleFormSubmit}
+            >
+              {submitStatus === 'loading' ? 'Submitting...' : (bookingType === 'now' ? 'Book Now' : 'Schedule Pickup')}
             </button>
             
             {/* Status Message */}
