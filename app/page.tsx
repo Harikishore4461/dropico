@@ -322,6 +322,15 @@ export default function Home() {
     
     buttons.forEach(button => {
       button.addEventListener('click', function(e: Event) {
+        // Check if this is an external link (anchor tag with href)
+        const target = e.target as HTMLElement;
+        const anchor = target.closest('a');
+        
+        if (anchor && anchor.href && anchor.href.startsWith('http')) {
+          // This is an external link, don't prevent default
+          return;
+        }
+        
         e.preventDefault();
         
         // Simulate action based on button text
@@ -795,9 +804,15 @@ export default function Home() {
               <h3 className={`drivers-subtitle ${isDriversAnimated ? 'animate' : ''}`}>FOR DRIVERS</h3>
               <h2 className={`drivers-title ${isDriversAnimated ? 'animate' : ''}`}>Earn with Us?</h2>
               <p className={`drivers-description ${isDriversAnimated ? 'animate' : ''}`}>Are you a skilled driver committed to giving outstanding service? Become a part of our dedicated driving team. We&apos;re looking for pros like you!</p>
-              <button className={`btn btn-primary ${isDriversAnimated ? 'animate' : ''}`}>
+              <a 
+                href="https://docs.google.com/forms/d/1-YWLiXeK6KtabReDG6do3u0YyKEbK18qB1ODV41fCzY/viewform?usp=sf_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn btn-primary ${isDriversAnimated ? 'animate' : ''}`}
+                style={{ textDecoration: 'none' }}
+              >
                 Join as a DROPSTER !
-              </button>
+              </a>
             </div>
           </div>
         </div>
