@@ -1557,7 +1557,7 @@ body {
 /* For Drivers Section */
 .for-drivers {
     position: relative;
-    min-height: 80vh;
+    min-height: 73vh;
     display: flex;
     align-items: center;
     background: #000000;
@@ -1594,7 +1594,7 @@ body {
 
 @media (max-width: 480px) {
     .for-drivers {
-        min-height: 65vh;
+        min-height: 43vh;
     }
     .drivers-bg-img {
         object-position: 65% center !important;
@@ -1605,6 +1605,28 @@ body {
     .drivers-content {
         padding: 2rem 2rem 0rem 1.5rem !important;
         width: 65%;
+        text-align: start;
+    }
+    
+    .drivers-subtitle {
+        font-size: clamp(0.8rem, 2.2vw, 1rem);
+        margin-bottom: 1rem;
+    }
+    
+    .drivers-title {
+        font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+        margin-bottom: 1.5rem;
+    }
+    
+    .drivers-description {
+        font-size: clamp(0.75rem, 2vw, 0.9rem);
+        margin-bottom: 2rem;
+        line-height: 1.4;
+    }
+    
+    .drivers-btn {
+        padding: 0.8rem 1.8rem;
+        font-size: clamp(0.7rem, 1.8vw, 0.8rem);
     }
 }
 
@@ -3144,7 +3166,15 @@ html {
     }
     
     .drivers-title {
-        font-size: clamp(1.4rem, 4vw, 2rem);
+        font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    }
+    
+    .drivers-subtitle {
+        font-size: clamp(0.8rem, 2.2vw, 1rem);
+    }
+    
+    .drivers-description {
+        font-size: clamp(0.75rem, 2vw, 0.9rem);
     }
     
     .testimonials-title {
