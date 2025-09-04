@@ -1610,17 +1610,17 @@ body {
     
     .drivers-subtitle {
         font-size: clamp(0.8rem, 2.2vw, 1rem);
-        margin-bottom: 1rem;
+        margin-bottom: 1rem !important;
     }
     
     .drivers-title {
         font-size: clamp(1.2rem, 3.5vw, 1.6rem);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.5rem !important;
     }
     
     .drivers-description {
         font-size: clamp(0.75rem, 2vw, 0.9rem);
-        margin-bottom: 2rem;
+        margin-bottom: 2rem !important;
         line-height: 1.4;
     }
     
@@ -3060,7 +3060,25 @@ html {
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
+  input[type="date"]:before {
+    content: attr(placeholder) !important;
+    color: #aaa;
+    margin-right: 0.5em;
+  }
+  input[type="date"]:focus:before,
+  input[type="date"]:valid:before {
+    content: "";
+  }
 
+  input[type="time"]:before {
+    content: attr(placeholder) !important;
+    color: #aaa;
+    margin-right: 0.5em;
+  }
+  input[type="time"]:focus:before,
+  input[type="time"]:valid:before {
+    content: "";
+  }
 @keyframes spin {
     to {
         transform: rotate(360deg);
