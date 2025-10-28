@@ -697,7 +697,7 @@ export default function Home() {
                 <div className="service-content">
                   <div className="service-price">
                     <span className="price-label">STARTING AT</span>
-                    <span className="price-amount">350<sup>*</sup></span>
+                    <span className="price-amount">₹350<sup>*</sup></span>
                   </div>
                   <p className="service-description">Just need to get there? We&apos;ll make it a ride worth remembering.</p>
                   <button className="service-btn" onClick={scrollToForm}>BOOK NOW <span className="arrow"></span></button>
@@ -713,7 +713,7 @@ export default function Home() {
                 <div className="service-content">
                   <div className="service-price">
                     <span className="price-label">STARTING AT</span>
-                    <span className="price-amount">470<sup>*</sup></span>
+                    <span className="price-amount">₹470<sup>*</sup></span>
                   </div>
                   <p className="service-description">One booking covers your entire journey, no extra calls or planning.</p>
                   <button className="service-btn" onClick={scrollToForm}>BOOK NOW <span className="arrow"></span></button>
@@ -729,7 +729,7 @@ export default function Home() {
                 <div className="service-content">
                   <div className="service-price">
                     <span className="price-label">STARTING AT</span>
-                    <span className="price-amount">740<sup>*</sup></span>
+                    <span className="price-amount">₹740<sup>*</sup></span>
                   </div>
                   <p className="service-description">Outstation Rides You Can Trust. Safe, comfortable trips beyond the city.</p>
                   <button className="service-btn" onClick={scrollToForm}>BOOK NOW <span className="arrow"></span></button>
